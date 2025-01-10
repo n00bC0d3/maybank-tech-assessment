@@ -9,16 +9,14 @@ terraform {
   required_version = ">= 1.4.2"
 
   backend "s3" {
-      # Replace this with your bucket name!
-      bucket                 = "kurt-eks-test" #"<Your Bucket Name>"
+      bucket                 = "kurt-eks-test" 
       key                    = "terraform-states/kurt-eks-test/infra/terraform.tfstate"
       region                 = "ap-southeast-1" 
       skip_region_validation = true
-      # Not mandatory
-      # profile = "santosoc-cgk" #"<Your AWS Profile>"
+
 
       # Replace this with your DynamoDB table name!
-      dynamodb_table = "kurt-eks-test" #"<Your Dynamo DB>"
+      dynamodb_table = "kurt-eks-test" 
       encrypt        = true
   }
 
