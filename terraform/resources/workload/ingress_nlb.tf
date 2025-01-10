@@ -14,24 +14,6 @@ module "nlb_public_sg" {
       security_groups = []
       prefix_list_ids  = ["pl-31a34658"]
       cidr_blocks     = []
-    },
-      {
-      description     = "Allow All Traffic from internet"
-      from_port       = 80
-      to_port         = 80
-      protocol        = "TCP"
-      security_groups = []
-      # prefix_list_ids  = ["pl-31a34658"]
-      cidr_blocks     = ["0.0.0.0/0"]
-    },
-    {
-      description     = "Allow ping from internet"
-      from_port       = -1
-      to_port         = -1
-      protocol        = "ICMP"
-      security_groups = []
-      # prefix_list_ids  = ["pl-31a34658"]
-      cidr_blocks     = ["0.0.0.0/0"]
     }
   ]
   egress_rules = [
