@@ -14,6 +14,24 @@ module "nlb_public_sg" {
       security_groups = []
       prefix_list_ids  = ["pl-31a34658"]
       cidr_blocks     = []
+    },
+      {
+      description     = "Allow All Traffic from internet"
+      from_port       = 80
+      to_port         = 80
+      protocol        = "TCP"
+      security_groups = []
+      # prefix_list_ids  = ["pl-31a34658"]
+      cidr_blocks     = ["0.0.0.0/0"]
+    },
+    {
+      description     = "Allow ping from internet"
+      from_port       = -1
+      to_port         = -1
+      protocol        = "ICMP"
+      security_groups = []
+      # prefix_list_ids  = ["pl-31a34658"]
+      cidr_blocks     = ["0.0.0.0/0"]
     }
   ]
   egress_rules = [
@@ -45,7 +63,8 @@ module "nlb_public" {
   security_groups = [module.nlb_public_sg.security_group_id]
 
   vpc_id = local.vpc_id
-  subnets = [local.private_subnets[1]]
+  # subnets = [local.private_subnets[1]]
+  subnets = local.public_subnets
   # enable_cross_zone_load_balancing = true
 
   # enable_deletion_protection = true
