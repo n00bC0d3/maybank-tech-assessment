@@ -14,6 +14,15 @@ module "ec2_rds_sg" {
       security_groups = [module.nlb_public_sg.security_group_id]
 
       cidr_blocks     = []
+    },
+    {
+      description     = "Allow All Traffic from bastion host"
+      from_port       = 0
+      to_port         = 0
+      protocol        = -1
+      security_groups = [module.ec2pub_sg.security_group_id]
+
+      cidr_blocks     = []
     }
   ]
   egress_rules = [
@@ -80,5 +89,10 @@ module "autoscaling_ec2_rds" {
 
   target_group_arns = [module.nlb_public.target_group_arns[0]]
 
-
+  user_data =base64encode(<<-EOT
+  #!/bin/bash
+  sudo apt update -y
+  sudo apt install nginx -y
+  EOT
+  )
 }
