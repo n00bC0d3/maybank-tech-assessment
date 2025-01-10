@@ -1,0 +1,1 @@
+aws eks update-kubeconfig --region ap-southeast-1 --name thoughtful-rock-otter
