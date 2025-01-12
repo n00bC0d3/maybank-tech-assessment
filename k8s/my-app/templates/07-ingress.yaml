@@ -3,14 +3,13 @@ kind: Ingress
 metadata:
   name: example-ingress
   namespace: {{ .Release.Namespace }}
-
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   tls:
   - hosts:
     - example.com
-    secretName: example-secret
+    secretName: ssl-secret
   rules:
   - host: example.com
     http:
