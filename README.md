@@ -64,7 +64,7 @@ Install the project
     #please edit the file pv.yaml first and update the value of : 
     spec.csi.volumeHandle in PersistentVolume
     
-    #Please deploy AWS EKS and EFS in the region first,
+    #Please deploy AWS EKS and EFS in the region first, install aws csi driver,
     then do : 
     #set login current aws profile into kubernetes cluster
     aws eks update-kubeconfig --region ap-southeast-1 --name <Cluster-name>
