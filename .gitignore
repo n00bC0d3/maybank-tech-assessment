@@ -1,3 +1,7 @@
+#Exclude eks tf folder
+terraform/resources/eks/**
+terraform/resources/efs/**
+
 # Local .terraform directories
 **/.terraform/*
 

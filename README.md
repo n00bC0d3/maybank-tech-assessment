@@ -11,6 +11,7 @@ last update: 12 Jan 2025
 
 
 ## Features
+All of the resources will be deployed at ap-southeast-1 ( Singapore AWS Region ), please update the code and syntax accordingly if you want to deploy it in another AWS region
 
 ```
 Terraform
@@ -40,7 +41,18 @@ aws ssm start-session --target <Bastion server instance id> --document-name AWS-
 
 ## Installation
 
-Install my-project with npm
+Prerequisite : 
+```
+    need to already install these in your local system : 
+    - terraform
+    - aws cli ==> please configure your aws credential in the cli
+    - kubectl
+    - git
+    - helm ( optional if you want to deploy using helm instead of k8s )
+
+```
+
+Install the project
 
 ```
 - Terraform
@@ -49,8 +61,18 @@ Install my-project with npm
   terraform apply 
 
 - k8s
+    #please edit the file pv.yaml first and update the value of : 
+    spec.csi.volumeHandle in PersistentVolume
+    
+    #Please deploy AWS EKS and EFS in the region first,
+    then do : 
+    #set login current aws profile into kubernetes cluster
+    aws eks update-kubeconfig --region ap-southeast-1 --name <Cluster-name>
+    
     kubectl apply -f <name of yaml> 
     kubectl apply -f pv.yaml
+
+
 
 - helm
     cd my-app
