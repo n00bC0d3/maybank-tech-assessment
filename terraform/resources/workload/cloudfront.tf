@@ -41,15 +41,15 @@ module "cdn" {
 
   }
 
- # BONUS !! If you want to restrict your viewer based on geolocation !
-  geo_restriction = {
-      locations        = [
-        "ID",
-         "MY",
-         "SG",
-      ]
-      restriction_type = "whitelist" 
-  }
+#  # BONUS !! If you want to restrict your viewer based on geolocation !
+#   geo_restriction = {
+#       locations        = [
+#         "ID",
+#          "MY",
+#          "SG",
+#       ]
+#       restriction_type = "whitelist" 
+#   }
 
   default_cache_behavior = {
     target_origin_id           = "nlb_pub_origin"
