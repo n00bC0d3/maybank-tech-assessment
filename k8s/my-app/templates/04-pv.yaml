@@ -1,0 +1,49 @@
+{{- if not (lookup "storage.k8s.io/v1" "StorageClass" .Release.Namespace "efs-sc") }}
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: efs-sc
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    meta.helm.sh/release-name: {{ .Values.appName }}
+    meta.helm.sh/release-namespace: {{ .Release.Namespace }}
+provisioner: efs.csi.aws.com
+{{- end }}
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: example-pv
+  namespace: {{ .Release.Namespace }}
+label:
+  app.kubernetes.io/managed-by: helm
+
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: efs-sc
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: fs-0e197be4a8c11483c #<EFS-file-system-id>
+
+---
+{{- if .Values.storageClass.create }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: example-pvc
+  namespace: {{ .Release.Namespace }}
+
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: efs-sc
+{{- end }}

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configMap.name }} 
+  namespace: {{ .Release.Namespace }}
+
+data:
+  config-file.properties: |
+    key1=value1
+    key2=value2
+

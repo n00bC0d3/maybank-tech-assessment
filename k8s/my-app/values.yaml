@@ -1,0 +1,30 @@
+appName: restopadang
+namespace: kari-kambing
+
+# for your deployment configuration
+deployment:
+  replicas: 3
+  image:
+    repository: busybox
+    tag: latest
+  pvc:
+    claimName: example-pvc
+
+service:
+  port: 80
+
+ingress:
+  host: example.com
+
+configMap:
+  name: example-configmap
+secret:
+  name: example-secret
+  data:
+    username: bXlVc2VybmFtZQ==
+    password: VGhpc0lzTm90QVNlY3VyZWRQYXNzd29yZA==
+
+storageClass:
+  create: false
+
+

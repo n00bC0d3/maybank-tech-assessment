@@ -1,0 +1,11 @@
+####
+### BETTER PROVISION NS MANUALLY ( not using helm, since it's only need to be deployed once )
+####
+
+# {{- if not (lookup "v1" "Namespace" .Release.Namespace .Release.Namespace) }}
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: {{ .Release.Namespace }}
+# {{- end }}
+# 
