@@ -1,7 +1,7 @@
 
 # maybank-tech-assessment
 
-By: Kurniawan
+last update: 12 Jan 2025
 
 
 
@@ -12,11 +12,21 @@ By: Kurniawan
 
 ## Features
 
+```
+Terraform
+
 - S3 and EC2 web server is served by AWS Cloudfront, which has geographic restriction to ALLOW ONLY users from Indonesia, Malaysia, and Singapore
 - MariaDB served by RDS Single AZ with Read Replica in another AZ 
 - Bastion Host to access the EC2 WebServer 
 
+```
 
+```
+K8s
+- resource in each yaml file
+- alternate to use helm
+
+```
 ## Documentation
 
 To access RDS DB Server or EC2 Web Server, use bastion server + SSM command 
@@ -26,4 +36,28 @@ aws ssm start-session --target <Bastion server instance id> --document-name AWS-
 
 #test port forwarding DB
 aws ssm start-session --target <Bastion server instance id> --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{"portNumber":["3306"],"localPortNumber":["<your localport>"],"host":["<rds db endpoint>"]}'
+
+
+## Installation
+
+Install my-project with npm
+
+```
+- Terraform
+  terraform init
+  terraform plan
+  terraform apply 
+
+- k8s
+    kubectl apply -f <name of yaml> 
+    kubectl apply -f pv.yaml
+
+- helm
+    cd my-app
+    $ helm install bestapp . -n bestapp --create-namespace
+    # to upgrade use helm upgrade :
+    $ helm upgrade bestapp . -n bestapp  --install
+
+```
+    
 
