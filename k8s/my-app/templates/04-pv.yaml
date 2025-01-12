@@ -17,8 +17,8 @@ kind: PersistentVolume
 metadata:
   name: example-pv
   namespace: {{ .Release.Namespace }}
-label:
-  app.kubernetes.io/managed-by: helm
+  labels:
+    app.kubernetes.io/managed-by: helm
 
 spec:
   capacity:
@@ -32,7 +32,6 @@ spec:
     volumeHandle: fs-0e197be4a8c11483c #<EFS-file-system-id>
 
 ---
-{{- if .Values.storageClass.create }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -46,4 +45,3 @@ spec:
     requests:
       storage: 5Gi
   storageClassName: efs-sc
-{{- end }}

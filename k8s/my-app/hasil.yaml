@@ -1,16 +1,18 @@
 ---
 # Source: my-app/templates/01-ns.yaml
+#
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: mynew-namespace2
+  name: theapp
+#
 ---
 # Source: my-app/templates/02-secret.yaml
 apiVersion: v1
 kind: Secret
 metadata:
   name: example-secret
-  namespace: mynew-namespace2
+  namespace: theapp
 
 type: Opaque
 data:
@@ -22,7 +24,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: example-configmap 
-  namespace: mynew-namespace2
+  namespace: theapp
 
 data:
   config-file.properties: |
@@ -34,16 +36,21 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: efs-sc
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    meta.helm.sh/release-name: thegreatapp
+    meta.helm.sh/release-namespace: theapp
 provisioner: efs.csi.aws.com
-# parameters:
-#   # Optionally specify parameters like throughputMode, encryptionInTransit
 ---
 # Source: my-app/templates/04-pv.yaml
 apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: example-pv
-  namespace: mynew-namespace2
+  namespace: theapp
+label:
+  app.kubernetes.io/managed-by: helm
 
 spec:
   capacity:
@@ -61,7 +68,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: example-pvc
-  namespace: mynew-namespace2
+  namespace: theapp
 
 spec:
   accessModes:
@@ -76,7 +83,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: example-service
-  namespace: mynew-namespace2
+  namespace: theapp
 
 spec:
   selector:
@@ -92,7 +99,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: efs-debug-pod
-  namespace: mynew-namespace2
+  namespace: theapp
 
 spec:
   containers:
@@ -111,8 +118,8 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "my-app-test-connection"
-  namespace: mynew-namespace2
+  name: "goodapp-test-connection"
+  namespace: theapp
 spec:
   containers:
     - name: wget
@@ -125,18 +132,18 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app-deployment
-  namespace: mynew-namespace2
+  name: thegreatapp-deployment
+  namespace: theapp
 
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: my-app
+      app: thegreatapp
   template:
     metadata:
       labels:
-        app: my-app
+        app: thegreatapp
     spec:
       topologySpreadConstraints:
       - maxSkew: 1
@@ -144,7 +151,7 @@ spec:
         whenUnsatisfiable: DoNotSchedule
         labelSelector:
           matchLabels:
-            app: my-app
+            app: thegreatapp
       containers:
       - name: example-container
         image: busybox:latest
@@ -173,7 +180,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: example-hpa
-  namespace: mynew-namespace2
+  namespace: theapp
 
 spec:
   scaleTargetRef:
@@ -195,7 +202,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: example-ingress
-  namespace: mynew-namespace2
+  namespace: theapp
 
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
